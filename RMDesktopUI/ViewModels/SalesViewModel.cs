@@ -1,4 +1,5 @@
 ﻿using Caliburn.Micro;
+using RMDesktopUI.Library.Api;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,9 +11,16 @@ namespace RMDesktopUI.ViewModels
 {
     public class SalesViewModel : Screen
     {
+        IProductEndpoint _productEndpoint;
         private BindingList<string> _products;
         private int _itemQuantity;
         private BindingList<string> _cart;
+
+        public SalesViewModel(IProductEndpoint productEndpoint)
+        {
+            _productEndpoint = productEndpoint;
+            Products = new BindingList<string>(_productEndpoint.GetAll());
+        }
 
         public BindingList<string> Products
         {
