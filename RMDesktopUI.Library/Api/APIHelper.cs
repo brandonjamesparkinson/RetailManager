@@ -1,24 +1,24 @@
-﻿using RMDesktopUI.Library.Models;
+﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text;
 using System.Threading.Tasks;
+using RMDesktopUI.Library.Models;
+using RMDesktopUI.Library.Api;
 
-namespace RMDesktopUI.Library.Api
+namespace TRMDesktopUI.Library.Api
 {
     public class APIHelper : IAPIHelper
     {
-        private HttpClient _apiClient { get; set; }
-        private ILoggedInUserModel _loggedInUser;
+        private HttpClient _apiClient;
+        private ILoggedInUserModel _loggedInUserModel;
 
-        public APIHelper(ILoggedInUserModel loggedInUser)
+        public APIHelper(ILoggedInUserModel loggedInUserModel)
         {
-            Initializeclient();
-            _loggedInUser = loggedInUser;
+            InitializeClient();
+            _loggedInUserModel = loggedInUserModel;
         }
 
         public HttpClient ApiClient
@@ -29,7 +29,7 @@ namespace RMDesktopUI.Library.Api
             }
         }
 
-        private void Initializeclient()
+        private void InitializeClient()
         {
             string api = ConfigurationManager.AppSettings["api"];
 
@@ -45,21 +45,27 @@ namespace RMDesktopUI.Library.Api
             {
                 new KeyValuePair<string, string>("grant_type", "password"),
                 new KeyValuePair<string, string>("username", username),
-                new KeyValuePair<string, string>("password", password),
+                new KeyValuePair<string, string>("password", password)
             });
 
             using (HttpResponseMessage response = await _apiClient.PostAsync("/Token", data))
             {
                 if (response.IsSuccessStatusCode)
                 {
-                    var result = await response.Content.ReadAsAsync<AuthenticatedUser>();
-                    return result;
+                    var result = await response.Content.ReadAsStringAsync();
+                    AuthenticatedUser authenticatedUser = JsonConvert.DeserializeObject<AuthenticatedUser>(result);
+                    return authenticatedUser;
                 }
                 else
                 {
                     throw new Exception(response.ReasonPhrase);
                 }
             }
+        }
+
+        public void LogOffUser()
+        {
+            _apiClient.DefaultRequestHeaders.Clear();
         }
 
         public async Task GetLoggedInUserInfo(string token)
@@ -74,12 +80,11 @@ namespace RMDesktopUI.Library.Api
                 if (response.IsSuccessStatusCode)
                 {
                     var result = await response.Content.ReadAsAsync<LoggedInUserModel>();
-                    _loggedInUser.CreatedDate = result.CreatedDate;
-                    _loggedInUser.EmailAddress = result.EmailAddress;
-                    _loggedInUser.FirstName = result.FirstName;
-                    _loggedInUser.Id = result.Id;
-                    _loggedInUser.LastName = result.LastName;
-                    _loggedInUser.Token = token;
+                    _loggedInUserModel.CreatedDate = result.CreatedDate;
+                    _loggedInUserModel.Id = result.Id;
+                    _loggedInUserModel.FirstName = result.FirstName;
+                    _loggedInUserModel.LastName = result.LastName;
+                    _loggedInUserModel.Token = token;
                 }
                 else
                 {

@@ -6,7 +6,8 @@ namespace RMDesktopUI.Library.Api
 {
     public interface IAPIHelper
     {
-        HttpClient ApiClient { get; set; }
+        HttpClient ApiClient { get; }
+        void LogOffUser();
         Task<AuthenticatedUser> Authenticate(string username, string password);
         Task GetLoggedInUserInfo(string token);
     }
