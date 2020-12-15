@@ -12,3 +12,5 @@ A retail management system which is built using .NET Framework and Caliburn Micr
 #### Navigate to the EFData DB, and copy the authorization token into the Id field for your registered user. 
 ![](readme_images/swagger-db-token.PNG)
 
+#### Sales View Page - After Logging in with an Authorised user account
+![](readme_images/sales-page-1.PNG)
