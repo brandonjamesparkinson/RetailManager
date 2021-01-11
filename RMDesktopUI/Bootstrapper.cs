@@ -31,7 +31,7 @@ namespace RMDesktopUI
             "PasswordChanged");
         }
 
-        protected override void Configure()
+        private IMapper ConfigureAutoMapper()
         {
             var config = new MapperConfiguration(cfg =>
             {
@@ -39,9 +39,14 @@ namespace RMDesktopUI
                 cfg.CreateMap<CartItemModel, CartItemDisplayModel>();
             });
 
-            var mapper = config.CreateMapper();
+            var output = config.CreateMapper();
 
-            _container.Instance(mapper);
+            return output;
+        }
+
+        protected override void Configure()
+        {
+            _container.Instance(ConfigureAutoMapper());
 
             _container.Instance(_container)
                 .PerRequest<IProductEndpoint, ProductEndpoint>()
