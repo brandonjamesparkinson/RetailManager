@@ -17,7 +17,7 @@ namespace RMDataManager.Library.DataAccess
             // Start fillin in the models we will save to the database 
             List<SaleDetailDBModel> details = new List<SaleDetailDBModel>();
             ProductData products = new ProductData();
-            var taxRate = ConfigHelper.GetTaxRate()/100;
+            var taxRate = ConfigHelper.GetTaxRate() /100;
 
             foreach (var item in saleInfo.SaleDetails)
             {

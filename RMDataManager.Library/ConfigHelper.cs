@@ -9,16 +9,16 @@ namespace RMDataManager.Library
 {
     public class ConfigHelper
     {
-        // TODO: Move this from config to API 
+        // TODO: Move this from config to the API
         public static decimal GetTaxRate()
         {
             string rateText = ConfigurationManager.AppSettings["taxRate"];
 
-            bool IsValidTaxRate = Decimal.TryParse(rateText, out decimal output);
+            bool isValidTaxRate = Decimal.TryParse(rateText, out decimal output);
 
-            if (IsValidTaxRate == false)
+            if (isValidTaxRate == false)
             {
-                throw new ConfigurationErrorsException("The tax rate is not set up properly.");
+                throw new ConfigurationErrorsException("The tax rate is not set up properly");
             }
 
             return output;
