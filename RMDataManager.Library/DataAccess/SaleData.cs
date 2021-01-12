@@ -32,7 +32,7 @@ namespace RMDataManager.Library.DataAccess
 
                 if (productInfo == null)
                 {
-                    throw new Exception($"The product ID of { item.ProductId } could not be found in the database");
+                    throw new Exception($"The product Id of { item.ProductId } could not be found in the database");
                 }
 
                 detail.PurchasePrice = (productInfo.RetailPrice * detail.Quantity);
@@ -53,7 +53,7 @@ namespace RMDataManager.Library.DataAccess
                 CashierId = cashierId
             };
 
-            sale.Total = sale.SubTotal = sale.Tax;
+            sale.Total = sale.SubTotal + sale.Tax;
 
             // save the sale model 
             SqlDataAccess sql = new SqlDataAccess();
