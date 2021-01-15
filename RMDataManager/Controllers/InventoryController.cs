@@ -9,15 +9,17 @@ using System.Web.Http;
 
 namespace RMDataManager.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class InventoryController : ApiController
     {
+        [Authorize(Roles = "Manager,Admin")]
         public void Post(InventoryModel item)
         {
             InventoryData data = new InventoryData();
             data.SaveInventoryRecord(item);
         }
 
+        [Authorize(Roles = "Admin")]
         public List<InventoryModel> GetSalesReport()
         {
             InventoryData data = new InventoryData();
