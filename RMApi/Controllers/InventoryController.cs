@@ -24,17 +24,20 @@ namespace RMApi.Controllers
         }
 
         [Authorize(Roles = "Manager,Admin")]
+        [HttpGet]
+        public List<InventoryModel> Get()
+        {
+            InventoryData data = new InventoryData(_config);
+            return data.GetInventory();
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
         public void Post(InventoryModel item)
         {
             InventoryData data = new InventoryData(_config);
             data.SaveInventoryRecord(item);
         }
 
-        [Authorize(Roles = "Admin")]
-        public List<InventoryModel> GetSalesReport()
-        {
-            InventoryData data = new InventoryData(_config);
-            return data.GetInventory();
-        }
     }
 }
