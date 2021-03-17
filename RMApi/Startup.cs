@@ -16,6 +16,7 @@ using Microsoft.OpenApi.Models;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using RMDataManager.Library.DataAccess;
+using RMDataManager.Library.Internal.DataAccess;
 
 namespace RMApi
 {
@@ -42,6 +43,7 @@ namespace RMApi
 
             // Personal Services 
             services.AddTransient<IInventoryData, InventoryData>();
+            services.AddTransient<ISqlDataAccess, SqlDataAccess>();
 
             services.AddAuthentication(options =>
             {
