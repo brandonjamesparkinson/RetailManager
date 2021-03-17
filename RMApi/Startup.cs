@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using Microsoft.OpenApi.Models;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using RMDataManager.Library.DataAccess;
 
 namespace RMApi
 {
@@ -38,6 +39,10 @@ namespace RMApi
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();
+
+            // Personal Services 
+            services.AddTransient<IInventoryData, InventoryData>();
+
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = "JwtBearer";
