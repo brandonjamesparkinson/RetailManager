@@ -12,10 +12,12 @@ namespace RMDataManager.Library.DataAccess
     public class SaleData
     {
         private readonly IConfiguration _config;
+        private readonly IProductData _productData;
 
-        public SaleData(IConfiguration config)
+        public SaleData(IConfiguration config, IProductData productData)
         {
             _config = config;
+            _productData = productData;
         }
 
 
@@ -25,7 +27,6 @@ namespace RMDataManager.Library.DataAccess
 
             // Start fillin in the models we will save to the database 
             List<SaleDetailDBModel> details = new List<SaleDetailDBModel>();
-            ProductData products = new ProductData(_config);
             var taxRate = ConfigHelper.GetTaxRate() / 100;
 
             foreach (var item in saleInfo.SaleDetails)
@@ -37,7 +38,7 @@ namespace RMDataManager.Library.DataAccess
                 };
 
                 // Get the information about this product 
-                var productInfo = products.GetProductById(item.ProductId);
+                var productInfo = _productData.GetProductById(item.ProductId);
 
                 if (productInfo == null)
                 {

@@ -43,6 +43,7 @@ namespace RMApi
 
             // Personal Services 
             services.AddTransient<IInventoryData, InventoryData>();
+            services.AddTransient<IProductData, ProductData>();
             services.AddTransient<ISqlDataAccess, SqlDataAccess>();
 
             services.AddAuthentication(options =>

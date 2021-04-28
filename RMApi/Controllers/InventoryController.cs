@@ -16,12 +16,10 @@ namespace RMApi.Controllers
     [Authorize]
     public class InventoryController : ControllerBase
     {
-        private readonly IConfiguration _config;
         private readonly IInventoryData _inventoryData;
 
-        public InventoryController(IConfiguration config, IInventoryData inventoryData)
+        public InventoryController(IInventoryData inventoryData)
         {
-            _config = config;
             _inventoryData = inventoryData;
         }
 
